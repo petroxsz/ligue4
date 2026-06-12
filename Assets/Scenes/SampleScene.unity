@@ -740,7 +740,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -10.76, y: -3.25}
+  m_AnchoredPosition: {x: -10.06, y: -3.25}
   m_SizeDelta: {x: 5.3851, y: 1.3463}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &219917096
@@ -763,7 +763,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: JOGADOR 2
+  m_text: GATO 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1100,7 +1100,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -31.76, y: -3.25}
+  m_AnchoredPosition: {x: -30.75, y: -3.25}
   m_SizeDelta: {x: 5.3851, y: 1.3463}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &264790643
@@ -1123,7 +1123,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: JOGADOR 1
+  m_text: GATO 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1528,7 +1528,7 @@ GameObject:
   - component: {fileID: 348399532}
   - component: {fileID: 348399531}
   m_Layer: 0
-  m_Name: CirculoVermelho_0
+  m_Name: gatoV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1583,7 +1583,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8551679934578991571, guid: 4a6c55803ad42354196f9b599ea8e1c1, type: 3}
+  m_Sprite: {fileID: 8591477560003685834, guid: 523862853413d694b86c6b649933e23f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1602,7 +1602,7 @@ Transform:
   m_GameObject: {fileID: 348399530}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.91, y: 3.61, z: 0}
+  m_LocalPosition: {x: -10.44, y: 3.61, z: 0}
   m_LocalScale: {x: 0.6996, y: 0.6996, z: 0.6996}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3603,8 +3603,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0.060156107, b: 1, a: 1}
+  m_Sprite: {fileID: -7504493266914645022, guid: ef33a438cf6243c4e88ccb3d6c5f5687, type: 3}
+  m_Color: {r: 0.13136348, g: 0.2264151, b: 0.21404414, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3622,8 +3622,8 @@ Transform:
   m_GameObject: {fileID: 1240253764}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.08, y: 2.07, z: 0}
-  m_LocalScale: {x: 15.056304, y: 13.302173, z: 15.056304}
+  m_LocalPosition: {x: -0.6, y: 3.9, z: 0}
+  m_LocalScale: {x: 1.2575097, y: 1.1110039, z: 1.2575097}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -5284,7 +5284,7 @@ GameObject:
   - component: {fileID: 1741800114}
   - component: {fileID: 1741800113}
   m_Layer: 0
-  m_Name: CirculoAmarelo_0
+  m_Name: gatoA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5339,7 +5339,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6066807936413663691, guid: d451e10aea5efbd4b95c7eeffc76fe80, type: 3}
+  m_Sprite: {fileID: 3881130911536103312, guid: 69de0d306721f2545be21fb9e8d4bdc6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5358,7 +5358,7 @@ Transform:
   m_GameObject: {fileID: 1741800112}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.2, y: 3.6184, z: 0}
+  m_LocalPosition: {x: 10, y: 3.6184, z: 0}
   m_LocalScale: {x: 0.6957898, y: 0.6957898, z: 0.6957898}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5957,9 +5957,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
+  - {fileID: 1381920267}
   - {fileID: 1240253766}
   - {fileID: 1439514989}
-  - {fileID: 1381920267}
   - {fileID: 1120780841}
   - {fileID: 1546605027}
   - {fileID: 348399532}
