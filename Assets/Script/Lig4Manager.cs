@@ -8,8 +8,10 @@ public class Lig4Manager : MonoBehaviour
     private int jogadorAtual = 1;
     private bool jogoFinalizado = false;
 
+    private int meuJogador;
+    
+
     private TCPManager tcp;
-    private bool recebendoJogada = false;
 
     [Header("Configurações Visuais")]
     public GameObject prefabJogador1; // Peça Vermelha
@@ -20,13 +22,25 @@ public class Lig4Manager : MonoBehaviour
     public float yInicial; // Altura da primeira linha lá de baixo
     public float espacamentoY; // Distância entre uma linha e outra
 
-    void Start()
+   void Start()
 {
     tcp = TCPManager.Instance;
 
-    Debug.Log("TCP NO LIG4: " + tcp);
-
     tcp.AoReceberMensagem += ReceberMensagemRede;
+
+
+    if (tcp.souHost)
+    {
+        meuJogador = 1;
+    }
+    else
+    {
+        meuJogador = 2;
+    }
+
+
+    Debug.Log("Sou jogador: " + meuJogador);
+
 
     IniciarNovoJogo();
 }
@@ -46,48 +60,60 @@ public class Lig4Manager : MonoBehaviour
     }
 
     public void TentarJogar(int coluna)
+{
+    if (jogoFinalizado)
+        return;
+
+
+    if (jogadorAtual != meuJogador)
     {
-
-        Debug.Log("Jogando coluna: " + coluna);
-
-        Debug.Log("Conectado? " + tcp.conectado);
-
-
-        Debug.Log("Clique na coluna: " + coluna);
-
-        if (!recebendoJogada)
-        {
-        tcp.EnviarMensagem("PLAY:" + coluna);
-     }
-
-        if (jogoFinalizado || coluna < 0 || coluna >= COLUNAS) return;
-
-        for (int y = 0; y < LINHAS; y++)
-        {
-            if (tabuleiro[coluna, y] == 0)
-            {
-                tabuleiro[coluna, y] = jogadorAtual;
-                
-                // Cria a pecinha colorida na tela!
-                CriarPecaNaTela(coluna, y);
-
-                if (VerificarVitoria(coluna, y))
-                {
-                    jogoFinalizado = true;
-                    Debug.Log($"VENCEDOR: Jogador {jogadorAtual}!");
-                    return;
-                }
-
-                jogadorAtual = (jogadorAtual == 1) ? 2 : 1;
-                return;
-            }
-        }
-        Debug.Log("Coluna cheia!");
+        Debug.Log("Não é meu turno!");
+        return;
     }
 
-    private void CriarPecaNaTela(int col, int lin)
+
+    tcp.EnviarMensagem("PLAY:" + meuJogador + ":" + coluna);
+
+    ExecutarJogada(meuJogador, coluna);
+}
+
+
+private void ExecutarJogada(int jogador, int coluna)
+{
+    if (jogoFinalizado || coluna < 0 || coluna >= COLUNAS)
+        return;
+
+
+    for (int y = 0; y < LINHAS; y++)
     {
-        GameObject prefabUsar = (jogadorAtual == 1) ? prefabJogador1 : prefabJogador2;
+        if (tabuleiro[coluna, y] == 0)
+        {
+            tabuleiro[coluna, y] = jogador;
+
+
+            CriarPecaNaTela(coluna, y, jogador);
+
+
+            if (VerificarVitoria(coluna, y))
+            {
+                jogoFinalizado = true;
+                Debug.Log($"VENCEDOR: Jogador {jogador}");
+                return;
+            }
+
+
+            jogadorAtual = (jogadorAtual == 1) ? 2 : 1;
+
+            return;
+        }
+    }
+
+    Debug.Log("Coluna cheia!");
+}
+
+    private void CriarPecaNaTela(int col, int lin, int jogador)
+{
+    GameObject prefabUsar = (jogador == 1) ? prefabJogador1 : prefabJogador2;
 
         // Pega a posição X do botão clicado e calcula a altura Y da linha
         float posX = colunasBotoes[col].position.x;
@@ -131,20 +157,21 @@ public class Lig4Manager : MonoBehaviour
         return contagem >= 4;
     }
 
-    private void ReceberMensagemRede(string mensagem)
+   private void ReceberMensagemRede(string mensagem)
 {
-
     Debug.Log("Lig4 recebeu: " + mensagem);
 
-    if (mensagem.StartsWith("PLAY:"))
+
+    if(mensagem.StartsWith("PLAY:"))
     {
-        int coluna = int.Parse(mensagem.Replace("PLAY:", ""));
+        string[] dados = mensagem.Split(':');
 
-        recebendoJogada = true;
 
-        TentarJogar(coluna);
+        int jogador = int.Parse(dados[1]);
+        int coluna = int.Parse(dados[2]);
 
-        recebendoJogada = false;
+
+        ExecutarJogada(jogador, coluna);
     }
 }
 }
