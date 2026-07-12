@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 166538904}
   - component: {fileID: 166538903}
   m_Layer: 5
-  m_Name: TxtStatus
+  m_Name: TextoStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -67.70969, w: 0}
+  m_margin: {x: 0, y: 0, z: -1186.7468, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -367,6 +367,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 250521575}
+  - component: {fileID: 250521576}
+  - component: {fileID: 250521577}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -389,6 +391,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &250521576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250521574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a93d51a2ba98343831c9db173c58df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TCPManager
+  porta: 7777
+  conectado: 0
+--- !u!114 &250521577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250521574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5356efcefe510eb438ea96c13da219a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuManager
+  tcpManager: {fileID: 250521576}
+  campoIP: {fileID: 1863776809}
+  textoStatus: {fileID: 166538903}
 --- !u!1 &339361995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,7 +1050,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 935192100}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 250521577}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: BotaoCliente
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &935192100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1714,7 +1757,7 @@ GameObject:
   - component: {fileID: 1950567778}
   - component: {fileID: 1950567777}
   m_Layer: 5
-  m_Name: BtnHost
+  m_Name: BotaoHost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1783,7 +1826,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1950567778}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 250521577}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: BotaoHost
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1950567778
 MonoBehaviour:
   m_ObjectHideFlags: 0
