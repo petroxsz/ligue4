@@ -9,7 +9,7 @@ using System.Collections.Generic;
 public class TCPManager : MonoBehaviour
 {
     public static TCPManager Instance;
-
+    private Queue<string> mensagensRecebidas = new Queue<string>();
 private Queue<Action> filaPrincipal = new Queue<Action>();
 
     [Header("Configuração")]
@@ -27,18 +27,24 @@ private Queue<Action> filaPrincipal = new Queue<Action>();
     public Action AoConectar;
 
 
+    public bool souHost;
+
+
     private void Awake()
+{
+    Debug.Log("TCPManager criado em: " + gameObject.scene.name);
+
+    if (Instance == null)
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
+    else
+    {
+        Debug.Log("DESTRUINDO DUPLICADO: " + gameObject.name);
+        Destroy(gameObject);
+    }
+}
 
 
     // ==========================
@@ -47,6 +53,7 @@ private Queue<Action> filaPrincipal = new Queue<Action>();
 
     public void CriarSala()
     {
+        souHost = true;
         servidor = new TcpListener(IPAddress.Any, porta);
         servidor.Start();
 
@@ -60,15 +67,15 @@ private Queue<Action> filaPrincipal = new Queue<Action>();
     {
         conectado = true;
 
-Debug.Log("Cliente conectado!");
+    Debug.Log("Cliente conectado!");
 
-lock (filaPrincipal)
-{
+    lock (filaPrincipal)
+    {
     filaPrincipal.Enqueue(() =>
     {
         AoConectar?.Invoke();
     });
-}
+    }
 
 IniciarRecebimento();
     }
@@ -81,6 +88,8 @@ IniciarRecebimento();
 
     public void EntrarSala(string ip)
     {
+        souHost = false;
+
         try
         {
             cliente = new TcpClient();
@@ -116,6 +125,9 @@ IniciarRecebimento();
 
     public void EnviarMensagem(string mensagem)
     {
+
+        Debug.Log("TENTANDO ENVIAR: " + mensagem);
+
         if (!conectado)
             return;
 
@@ -140,6 +152,9 @@ IniciarRecebimento();
 
     private void Receber()
     {
+
+        
+
         byte[] buffer = new byte[1024];
 
 
@@ -154,21 +169,27 @@ IniciarRecebimento();
                     string mensagem = Encoding.UTF8.GetString(buffer,0,tamanho);
 
                     Debug.Log("Recebido: " + mensagem);
+                    Debug.Log("RECEBEU REDE: " + mensagem);
 
-
-                    AoReceberMensagem?.Invoke(mensagem);
+lock(mensagensRecebidas)
+{
+    mensagensRecebidas.Enqueue(mensagem);
+}
                 }
             }
-            catch
-            {
-                conectado = false;
-            }
+            catch(Exception e)
+{
+    Debug.Log("ERRO RECEBIMENTO TCP: " + e.Message);
+
+    conectado = false;
+}
         }
     }
 
 
     private void Update()
 {
+    // Eventos da conexão
     lock (filaPrincipal)
     {
         while (filaPrincipal.Count > 0)
@@ -176,7 +197,20 @@ IniciarRecebimento();
             filaPrincipal.Dequeue()?.Invoke();
         }
     }
+
+
+    // Mensagens do jogo
+    lock (mensagensRecebidas)
+    {
+        while (mensagensRecebidas.Count > 0)
+        {
+            string mensagem = mensagensRecebidas.Dequeue();
+
+            AoReceberMensagem?.Invoke(mensagem);
+        }
+    }
 }
+
 
 
 
@@ -193,4 +227,6 @@ IniciarRecebimento();
         if(servidor != null)
             servidor.Stop();
     }
+
+    
 }

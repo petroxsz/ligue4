@@ -8,6 +8,9 @@ public class Lig4Manager : MonoBehaviour
     private int jogadorAtual = 1;
     private bool jogoFinalizado = false;
 
+    private TCPManager tcp;
+    private bool recebendoJogada = false;
+
     [Header("Configurações Visuais")]
     public GameObject prefabJogador1; // Peça Vermelha
     public GameObject prefabJogador2; // Peça Amarela
@@ -18,9 +21,15 @@ public class Lig4Manager : MonoBehaviour
     public float espacamentoY; // Distância entre uma linha e outra
 
     void Start()
-    {
-        IniciarNovoJogo();
-    }
+{
+    tcp = TCPManager.Instance;
+
+    Debug.Log("TCP NO LIG4: " + tcp);
+
+    tcp.AoReceberMensagem += ReceberMensagemRede;
+
+    IniciarNovoJogo();
+}
 
     public void IniciarNovoJogo()
     {
@@ -38,6 +47,19 @@ public class Lig4Manager : MonoBehaviour
 
     public void TentarJogar(int coluna)
     {
+
+        Debug.Log("Jogando coluna: " + coluna);
+
+        Debug.Log("Conectado? " + tcp.conectado);
+
+
+        Debug.Log("Clique na coluna: " + coluna);
+
+        if (!recebendoJogada)
+        {
+        tcp.EnviarMensagem("PLAY:" + coluna);
+     }
+
         if (jogoFinalizado || coluna < 0 || coluna >= COLUNAS) return;
 
         for (int y = 0; y < LINHAS; y++)
@@ -108,4 +130,21 @@ public class Lig4Manager : MonoBehaviour
         }
         return contagem >= 4;
     }
+
+    private void ReceberMensagemRede(string mensagem)
+{
+
+    Debug.Log("Lig4 recebeu: " + mensagem);
+
+    if (mensagem.StartsWith("PLAY:"))
+    {
+        int coluna = int.Parse(mensagem.Replace("PLAY:", ""));
+
+        recebendoJogada = true;
+
+        TentarJogar(coluna);
+
+        recebendoJogada = false;
+    }
+}
 }

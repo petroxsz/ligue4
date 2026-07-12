@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class MenuManager : MonoBehaviour
 {
@@ -20,6 +22,14 @@ public class MenuManager : MonoBehaviour
     Debug.Log("MENU RECEBEU CONEXÃO!");
 
     textoStatus.text = "Jogador conectado!";
+
+    Invoke(nameof(CarregarJogo), 1f);
+}
+
+
+void CarregarJogo()
+{
+    SceneManager.LoadScene("SampleScene");
 }
 
 
