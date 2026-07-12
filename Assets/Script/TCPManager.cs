@@ -64,21 +64,25 @@ private Queue<Action> filaPrincipal = new Queue<Action>();
 
 
     private void AceitarCliente(IAsyncResult resultado)
-    {
-        conectado = true;
+{
+    cliente = servidor.EndAcceptTcpClient(resultado);
+
+    stream = cliente.GetStream();
+
+    conectado = true;
 
     Debug.Log("Cliente conectado!");
 
     lock (filaPrincipal)
     {
-    filaPrincipal.Enqueue(() =>
-    {
-        AoConectar?.Invoke();
-    });
+        filaPrincipal.Enqueue(() =>
+        {
+            AoConectar?.Invoke();
+        });
     }
 
-IniciarRecebimento();
-    }
+    IniciarRecebimento();
+}
 
 
 
@@ -179,7 +183,7 @@ lock(mensagensRecebidas)
             }
             catch(Exception e)
 {
-    Debug.Log("ERRO RECEBIMENTO TCP: " + e.Message);
+    Debug.LogError("ERRO RECEBIMENTO TCP: " + e);
 
     conectado = false;
 }
