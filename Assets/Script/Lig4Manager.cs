@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using TMPro;
 public class Lig4Manager : MonoBehaviour
 {
     private const int COLUNAS = 7;
@@ -14,13 +14,16 @@ public class Lig4Manager : MonoBehaviour
     private TCPManager tcp;
 
     [Header("Configurações Visuais")]
-    public GameObject prefabJogador1; // Peça Vermelha
-    public GameObject prefabJogador2; // Peça Amarela
-    public Transform[] colunasBotoes; // Os 7 botões
+    public GameObject prefabJogador1; 
+    public GameObject prefabJogador2; 
+    public Transform[] colunasBotoes; 
+
+    [Header("Interface")]
+    public TMP_Text textoTurno;
     
     [Header("Ajuste de Posição")]
-    public float yInicial; // Altura da primeira linha lá de baixo
-    public float espacamentoY; // Distância entre uma linha e outra
+    public float yInicial; 
+    public float espacamentoY; 
 
    void Start()
 {
@@ -43,6 +46,7 @@ public class Lig4Manager : MonoBehaviour
 
 
     IniciarNovoJogo();
+    AtualizarTextoTurno();
 }
 
     public void IniciarNovoJogo()
@@ -79,15 +83,15 @@ public class Lig4Manager : MonoBehaviour
 
 
 private void ExecutarJogada(int jogador, int coluna)
-{
+    {
     if (jogoFinalizado || coluna < 0 || coluna >= COLUNAS)
         return;
 
 
     for (int y = 0; y < LINHAS; y++)
-    {
-        if (tabuleiro[coluna, y] == 0)
         {
+            if (tabuleiro[coluna, y] == 0)
+            {
             tabuleiro[coluna, y] = jogador;
 
 
@@ -103,16 +107,17 @@ private void ExecutarJogada(int jogador, int coluna)
 
 
             jogadorAtual = (jogadorAtual == 1) ? 2 : 1;
+            AtualizarTextoTurno();
 
             return;
+            }
         }
+
+            Debug.Log("Coluna cheia!");
     }
 
-    Debug.Log("Coluna cheia!");
-}
-
     private void CriarPecaNaTela(int col, int lin, int jogador)
-{
+    {
     GameObject prefabUsar = (jogador == 1) ? prefabJogador1 : prefabJogador2;
 
         // Pega a posição X do botão clicado e calcula a altura Y da linha
@@ -158,12 +163,12 @@ private void ExecutarJogada(int jogador, int coluna)
     }
 
    private void ReceberMensagemRede(string mensagem)
-{
+    {
     Debug.Log("Lig4 recebeu: " + mensagem);
 
 
     if(mensagem.StartsWith("PLAY:"))
-    {
+        {
         string[] dados = mensagem.Split(':');
 
 
@@ -172,6 +177,17 @@ private void ExecutarJogada(int jogador, int coluna)
 
 
         ExecutarJogada(jogador, coluna);
+        }
     }
-}
+
+    private void AtualizarTextoTurno()
+    {
+        if (jogoFinalizado)
+        return;
+
+        if (jogadorAtual == meuJogador)
+        textoTurno.text = "SUA VEZ";
+        else
+        textoTurno.text = "VEZ DO ADVERSÁRIO";
+    }
 }
