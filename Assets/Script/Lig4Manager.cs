@@ -20,6 +20,7 @@ public class Lig4Manager : MonoBehaviour
 
     [Header("Interface")]
     public TMP_Text textoTurno;
+    public TMP_Text textoVencedor;
     
     [Header("Ajuste de Posição")]
     public float yInicial; 
@@ -99,11 +100,15 @@ private void ExecutarJogada(int jogador, int coluna)
 
 
             if (VerificarVitoria(coluna, y))
-            {
-                jogoFinalizado = true;
-                Debug.Log($"VENCEDOR: Jogador {jogador}");
-                return;
-            }
+                {
+                        jogoFinalizado = true;
+
+                        MostrarResultado(jogador == meuJogador);
+
+                        Debug.Log($"VENCEDOR: Jogador {jogador}");
+
+                        return;
+                }
 
 
             jogadorAtual = (jogadorAtual == 1) ? 2 : 1;
@@ -190,4 +195,15 @@ private void ExecutarJogada(int jogador, int coluna)
         else
         textoTurno.text = "VEZ DO ADVERSÁRIO";
     }
-}
+
+        private void MostrarResultado(bool venceu)
+        {
+            textoVencedor.gameObject.SetActive(true);
+
+            if (venceu)
+            textoVencedor.text = "VOCÊ VENCEU!";
+            else
+            textoVencedor.text = "VOCÊ PERDEU!";
+        }
+
+ }
