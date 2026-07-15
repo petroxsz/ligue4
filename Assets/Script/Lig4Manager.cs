@@ -14,9 +14,11 @@ public class Lig4Manager : MonoBehaviour
     private TCPManager tcp;
 
     [Header("Configurações Visuais")]
-    public GameObject prefabJogador1; 
-    public GameObject prefabJogador2; 
-    public Transform[] colunasBotoes; 
+public GameObject prefabJogador1;
+public GameObject prefabJogador2;
+
+[Header("Posições das Casas")]
+public Transform circulosBrancos;
 
     [Header("Interface")]
     public TMP_Text textoTurno;
@@ -122,18 +124,17 @@ private void ExecutarJogada(int jogador, int coluna)
     }
 
     private void CriarPecaNaTela(int col, int lin, int jogador)
-    {
+{
     GameObject prefabUsar = (jogador == 1) ? prefabJogador1 : prefabJogador2;
 
-        // Pega a posição X do botão clicado e calcula a altura Y da linha
-        float posX = colunasBotoes[col].position.x;
-        float posY = yInicial + (lin * espacamentoY);
-        
-        // O -1 no Z serve para a peça ficar na frente do tabuleiro azul
-        Vector3 posicaoFinal = new Vector3(posX, posY, -1); 
+    int indice = (col * LINHAS) + (LINHAS - 1 - lin);
 
-        Instantiate(prefabUsar, posicaoFinal, Quaternion.identity);
-    }
+    Transform alvo = circulosBrancos.GetChild(indice);
+
+    Debug.Log($"Coluna: {col} Linha: {lin} Índice: {indice} Nome: {alvo.name}");
+
+    Instantiate(prefabUsar, alvo.position, Quaternion.identity);
+}
 
     private bool VerificarVitoria(int col, int lin)
     {
